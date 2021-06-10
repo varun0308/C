@@ -230,10 +230,7 @@ int main()
 	    break;
 	    case 4: exit(0);   
 	    break;
-	    default: printf("\nWrong choice!\n");       
-	              
-	                 
-		          
+	    default: printf("\nWrong choice!\n");       		          
 	
 	}
 	

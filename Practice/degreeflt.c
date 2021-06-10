@@ -10,7 +10,7 @@ main()
     {
 
         cel=5*(far-32)/9;
-        printf("%2.1f\t", cel );
+        printf("%0.2f\t", cel );
         far=far+10;
     }
     
