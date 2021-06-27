@@ -15,3 +15,7 @@ int main()
     printf("%d",k);
     return 0;
 }
+
+/*
+Alternate is using n%10
+*/
