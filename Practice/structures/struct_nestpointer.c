@@ -1,14 +1,16 @@
 #include<stdio.h>
+// THe core concept of linked lists :
+
 
 // A linked list node
-struct Node {
+typedef struct Node {
     int data;
     struct Node *next;
-};
+}k;
 
 int main()
 {
-    struct Node *m1,*m2,*m3;
+    k *m1,*m2,*m3;
 
     // In this program malloc is useless
     // because we know there are 3 structure call
@@ -30,7 +32,7 @@ int main()
         |             |              |
         |             |              |
     +---+---+     +---+---+     +----+----+
-    | 5  | o----->| 10 | o----->|15 | NULL|
+    | 5  | o----->| 10 | o----->| 15 |  o-----> NULL 
     +---+---+     +---+---+     +----+----+  */
 
     return 0;

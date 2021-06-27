@@ -1,5 +1,5 @@
 #include<stdio.h>
-
+// Recomended to usse %p to print pointers
 int main()
 {
     int var = 2;
@@ -10,7 +10,7 @@ int main()
     // &var is the location address of var
 
     printf("%d",*ptr);      // prints 2 
-    printf("\n%x",ptr);     // prints an address                     
+    printf("\n%p",ptr);     // prints an address                     
     printf("\n%x",&var);    // prints that above address 
     printf("\n%x",&ptr);    // prints address of pointer
 
