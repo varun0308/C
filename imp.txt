@@ -1,0 +1,65 @@
+IMPORTANT POINTS :
+
+0 ->
+Remove scanf() from program before debugging
+It stops at a scanf() statement.
+
+
+1 ->
+Cannot just do :   	  string[] = "abc"  --------- this is assigning
+We can only do : char string[] = "abc"  --------- this is initializing
+So you cannot assign whole strings to arrays in C (You can do individual letters)
+We can only initialize arrays in C
+So we do  : strcpy(string-to-copy-to,the-actual-string)
+	   Ex : strcpy(name,"Varun");
+
+
+
+2 ->
+Arrays are basically pointers : int arr[5] implies arr is pointing to arr[0]
+so you can use it like pointers  : 
+
+int *ptr;
+ptr = arr;	OR  ptr = &arr[0];
+
+for(i=0;i<n;i++)
+	scanf("%d",(arr+i));	
+OR  printf("%d",*(arr+i));	
+
+
+
+3 ->
+Every time pointers are used wi
+
+
+
+4 ->
+if typedef is used before struct, you don't have to give a name for the structure
+but givig name at end is necessary :
+
+typedef struct{
+	int a;
+	char c;
+	float b;
+}marks;
+
+You can use "marks" directly as : marks m1,m2;
+
+
+5 ->
+In linked lists,
+Use :
+struct node* function_name()
+	return head;
+
+head = function_name();
+
+Do NOT Use :
+struct node function_name()
+	return *head;
+
+*head = function_name();
+
+Gives segmentation fault
+Because c language doesn't allow entire structure(*head) to be returned
+head returns a pointer from function but *head gives the entire structure

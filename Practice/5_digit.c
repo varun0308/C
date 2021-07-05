@@ -1,3 +1,5 @@
+// Prints the sum of digits of a 5-digit number
+
 #include <stdio.h>
 #include <string.h>
 
