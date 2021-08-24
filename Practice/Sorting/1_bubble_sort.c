@@ -1,3 +1,8 @@
+"""
+Bubble sort : Repeated swapping of adjacent elements if they are in wrong order.
+Time complexity : O(n^2)
+"""
+
 #include<stdio.h>
 
 void sort(int *x,int *y)

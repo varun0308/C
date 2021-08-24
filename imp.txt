@@ -1,10 +1,5 @@
 IMPORTANT POINTS :
 
-0 ->
-Remove scanf() from program before debugging
-It stops at a scanf() statement.
-
-
 1 ->
 Cannot just do :   	  string[] = "abc"  --------- this is assigning
 We can only do : char string[] = "abc"  --------- this is initializing
@@ -35,7 +30,7 @@ Every time pointers are used wi
 
 4 ->
 if typedef is used before struct, you don't have to give a name for the structure
-but givig name at end is necessary :
+but giving name at end is necessary :
 
 typedef struct{
 	int a;
@@ -61,5 +56,5 @@ struct node function_name()
 *head = function_name();
 
 Gives segmentation fault
-Because c language doesn't allow entire structure(*head) to be returned
+Because c language doesn't allow entire structure (*head) to be returned
 head returns a pointer from function but *head gives the entire structure
