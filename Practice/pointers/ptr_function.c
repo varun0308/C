@@ -25,7 +25,7 @@ int main()
     myfunc1(ptr1);                      // Or mufunc1(&c)
     int new2 = myfunc2(ptr1,ptr2);      // Or myfunc2(&c,&m)
 
-    printf("\nnew1 = %d\nnew2 = %d\nc = %d\nm = %d\nptr1,ptr2 = (%d,%d)",*ptr1,new2,c,m,*ptr1,*ptr2);
+    printf("\nc = %d\nm = %d\nptr1,ptr2 = (%d,%d)",c,m,*ptr1,*ptr2);
     return 0;
 }
 

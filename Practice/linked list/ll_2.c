@@ -22,6 +22,7 @@ struct node* create(struct node *head,int n)
         printf("Enter value %d : ",i+1);
 
         new_node = (struct node*)malloc(sizeof(struct node));
+        
         scanf("%d",&new_node->data);
         new_node->next = NULL;
 
