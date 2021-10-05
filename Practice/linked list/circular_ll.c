@@ -39,7 +39,8 @@ void add_element(int value,int pos)
         }
         if(pos == 1)
         {
-            ptr->next = temp;
+            ptr->next = temp->next;
+            temp->next = ptr;
             start = ptr;
         }
         else if(temp->next == start)
@@ -89,10 +90,13 @@ void delete_element(int pos)
         temp = temp->next;
         i++;
     }
-    prev->next = temp->next;
+    if(pos == num-1) prev->next = start; 
+    else prev->next = temp->next;
+
     free(temp);
     num--;
 }
+
 void display()
 {
     node *temp;
