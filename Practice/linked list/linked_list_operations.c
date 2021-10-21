@@ -108,7 +108,7 @@ int main()
     while(choice != 0)
     {
         printf("\nEnter choice : ");
-        printf("\n1, Add element\n2.Delete element\n3.Display Linked list\n0.Exit\n");
+        printf("\n1. Add element\n2. Delete element\n3. Display Linked list\n0. Exit\n");
         scanf("%d",&choice);
         switch(choice)
         {
