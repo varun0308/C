@@ -1,16 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
-
 // Node creation
 struct node
 {
 int info;
-struct node *llink;
-struct node *rlink;
+struct node *link;
 };
 typedef struct node *NODE;
 // Insert node at the front end
-NODE insertFront(NODE first)
+NODE insertFront(NODE header)
 {
 NODE temp;
 int item;
@@ -18,25 +16,27 @@ temp = (NODE)malloc(sizeof(struct node));
 if(temp==NULL)
 {
 printf("\n Unable to allocate memory...\n");
-return first;
+return header;
 }
 printf("\nEnter an element to be inserted: ");
 scanf("%d", &item);
 temp->info = item;
-temp->llink = NULL;
-temp->rlink = NULL;
-if(first == NULL)
-first=temp;
+temp->link = NULL;
+if(header == NULL)
+{
+header->link=temp;
+header->info++;
+}
 else
 {
-temp->rlink = first;
-first->llink=temp;
-first=temp;
+temp->link = header->link;
+header->link=temp;
+header->info++;
 }
-return first;
+return header;
 }
 // Insert node at the rear end
-NODE insertRear(NODE first)
+NODE insertRear(NODE header)
 {
 NODE temp,cur;
 int item;
@@ -44,27 +44,29 @@ temp = (NODE)malloc(sizeof(struct node));
 if(temp==NULL)
 {
 printf("\n Unable to allocate memory...\n");
-return first;
+return header;
 }
 printf("\nEnter an element to be inserted: ");
 scanf("%d", &item);
 temp->info = item;
-temp->llink = NULL;
-temp->rlink = NULL;
-if(first == NULL)
-first=temp;
+temp->link = NULL;
+if(header == NULL)
+{
+header->link=temp;
+header->info++;
+}
 else
 {
-cur=first;
-while(cur->rlink!=NULL)
-cur=cur->rlink;
-cur->rlink=temp;
-temp->llink = cur;
+cur=header->link; //initializing from the next node of header
+while(cur->link!=NULL)
+cur=cur->link;
+cur->link=temp;
+header->info++;
 }
-return first;
+return header;
 }
 // Insert at position
-NODE insertPos(NODE first)
+NODE insertPos(NODE header)
 {
 NODE temp,cur;
 int item, pos, k;
@@ -72,14 +74,59 @@ printf("\nEnter a position: ");
 scanf("%d",&pos);
 if(pos==1)
 {
+header = insertFront(header);
+return header;
+}
+cur=header;
+k=1;
+while(cur!=NULL && k<pos-1)
+{
+cur=cur->link;
+k++;
+}
+if(cur == NULL)
+{
+printf("\nPosition doesnt exist... \n");
+return header;
+}
+temp = (NODE)malloc(sizeof(struct node));
+if(temp==NULL)
+{
+printf("\n Unable to allocate memory...\n");
+return header;
+}
+else
+{
+printf("\nEnter an element to be inserted: ");
+scanf("%d", &item);
+temp->info = item;
+temp->link = NULL;
+temp->link = cur->link;
+cur->link = temp;
+header->info++;
+return header;
+}
+}
+/*
+// Insert after position -------------------------- if you uncomment, this code works very fine, only change is
+pos++ before start of logic and pos==0 check
+NODE insertAfterPos(NODE first)
+{
+NODE temp,cur;
+int item, pos, k;
+printf("\nEnter a position: ");
+scanf("%d",&pos);
+if(pos==0)
+{
 first = insertFront(first);
 return first;
 }
+pos++;
 cur=first;
 k=1;
 while(cur!=NULL && k<pos-1)
 {
-cur=cur->rlink;
+cur=cur->link;
 k++;
 }
 if(cur == NULL)
@@ -96,386 +143,380 @@ return first;
 printf("\nEnter an element to be inserted: ");
 scanf("%d", &item);
 temp->info = item;
-temp->llink = NULL;
-temp->rlink = NULL;
-temp->rlink = cur->rlink;
-temp->llink = cur;
-cur->rlink->llink = temp;
-cur->rlink = temp;
+temp->link = NULL;
+temp->link = cur->link;
+cur->link = temp;
 return first;
 }
+*/
 // insert before element
-NODE insertBeforeEle(NODE first)
+NODE insertBeforeEle(NODE header)
 {
-NODE temp,cur;
+NODE temp,cur, prev;
 int item, ele;
 printf("\nEnter an element: ");
 scanf("%d",&ele);
-cur=first;
+cur=header;
+prev=NULL;
 while(cur!=NULL && cur->info!=ele)
 {
-cur=cur->rlink;
+prev=cur;
+cur=cur->link;
 }
 if(cur == NULL)
 {
 printf("\nGiven element doesnt exist in the list... \n");
-return first;
-}
-if(cur == first)
-{
-first = insertFront(first);
-return first;
+return header;
 }
 temp = (NODE)malloc(sizeof(struct node));
 if(temp==NULL)
 {
 printf("\n Unable to allocate memory...\n");
-return first;
+return header;
 }
+else
+{
 printf("\nEnter an element to be inserted: ");
 scanf("%d", &item);
 temp->info = item;
-temp->llink = NULL;
-temp->rlink = NULL;
-temp->rlink = cur;
-temp->llink = cur->llink;
-cur->llink->rlink = temp;
-cur->llink = temp;
-return first;
+temp->link = NULL;
+temp->link = cur;
+if(prev!=NULL)
+prev->link = temp;
+else
+header->link=temp;
+header->info++;
+return header;
+}
 }
 //insert after element
-NODE insertAfterEle(NODE first)
+NODE insertAfterEle(NODE header)
 {
 NODE temp,cur;
 int item, ele;
 printf("\nEnter an element: ");
 scanf("%d",&ele);
-cur=first;
+cur=header;
 while(cur!=NULL && cur->info!=ele)
 {
-cur=cur->rlink;
+cur=cur->link;
 }
 if(cur == NULL)
 {
 printf("\nGiven element doesnt exist in the list... \n");
-return first;
+return header;
+}
+if(cur==header)
+{
+header=insertFront(header);
+return header;
 }
 temp = (NODE)malloc(sizeof(struct node));
 if(temp==NULL)
 {
 printf("\n Unable to allocate memory...\n");
-return first;
+return header;
 }
+else
+{
 printf("\nEnter an element to be inserted: ");
 scanf("%d", &item);
 temp->info = item;
-temp->llink = NULL;
-temp->rlink = NULL;
-temp->rlink = cur->rlink;
-temp->llink = cur;
-if(cur->rlink != NULL)
-cur->rlink->llink = temp;
-cur->rlink = temp;
-return first;
+temp->link = NULL;
+temp->link = cur->link;
+cur->link=temp;
+header->info++;
+return header;
+}
 }
 // Delete node from the front end
-NODE deleteFront(NODE first)
+NODE deleteFront(NODE header)
 {
 NODE temp;
-if(first==NULL)
+if(header==NULL)
 {
 printf("\nThe list is empty.. no elements to delete...\n");
-return first;
+return header;
 }
-temp=first;
-first = first->rlink;
-first->llink = NULL;
+else
+{
+temp=header->link;
+header->link= temp->link;
+header->info--;
 printf("\nElement being deleted is : %d\n", temp->info);
 free(temp);
-return first;
+return header;
+}
 }
 // Delete node from the rear end
-NODE deleteRear(NODE first)
+NODE deleteRear(NODE header)
 {
-NODE cur;
-if(first==NULL)
+NODE cur,prev;
+cur=header;
+prev=header;
+if(header==NULL)
 {
 printf("\nThe list is empty.. no elements to delete...\n");
-return first;
+return header;
 }
-if(first->llink == NULL && first->rlink == NULL)
+else
 {
-printf("\nElement being popped is : %d\n", first->info);
-free(first);
-first = NULL;
-return first;
-}
-cur=first;
-while(cur->rlink != NULL)
+cur=header->link;
+while(cur->link!=NULL)
 {
-cur=cur->rlink;
+prev=cur;
+cur=cur->link;
 }
-cur->llink->rlink = NULL;
+prev->link=NULL;
 printf("\nElement being deleted is : %d\n", cur->info);
+header->info--;
 free(cur);
-return first;
+return header;
+}
 }
 // Delete the element given from the linked list
-NODE deleteElement(NODE first)
+NODE deleteElement(NODE header)
 {
-NODE cur = NULL;
+NODE cur = NULL, prev = NULL;
 int item;
-if(first==NULL)
+if(header==NULL)
 {
 printf("\nThe list is empty.. no elements to delete...\n");
-return first;
+return header;
 }
 printf("\nEnter the element to be deleted :");
 scanf("%d",&item);
-cur=first;
+cur=header->link;
 while(cur!=NULL && cur->info!=item)
 {
-cur=cur->rlink;
+prev=cur;
+cur=cur->link;
 }
 if(cur==NULL)
 {
 printf("\nElement to be deleted doesnt exist in the list\n");
-return first;
+return header;
 }
-if(cur == first)
-{
-first = deleteFront(first);
-return first;
-}
-if(cur->rlink == NULL)
-{
-first = deleteRear(first);
-return first;
-}
-cur->llink->rlink = cur->rlink;
-cur->rlink->llink = cur->llink;
+prev->link=cur->link;
 printf("\nElement being deleted is : %d\n", cur->info);
+header->info--;
 free(cur);
-return first;
+return header;
 }
-
 // Delete element at the given position
-NODE deletePos(NODE first)
+NODE deletePos(NODE header)
 {
-NODE cur = NULL;
+NODE cur = NULL, prev = NULL;
 int pos, k;
-if(first==NULL)
+if(header==NULL)
 {
 printf("\nThe list is empty.. no elements to delete...\n");
-
-return first;
+return header;
 }
 printf("\nEnter the position of element to be deleted :");
 scanf("%d",&pos);
 if(pos==1)
 {
-first = deleteFront(first);
-return first;
+header= deleteFront(header);
+return header;
 }
-cur=first;
+cur=header->link;
 k=1;
 while(cur!=NULL && k<pos)
 {
-cur=cur->rlink;
+prev=cur;
+cur=cur->link;
 k++;
 }
 if(cur==NULL)
 {
 printf("\nPosition doesnt exist in the list\n");
-return first;
+return header;
 }
-cur->llink->rlink = cur->rlink;
-cur->rlink->llink = cur->llink;
+prev->link = cur->link;
 printf("\nElement being deleted is : %d\n", cur->info);
+header->info--;
 free(cur);
-return first;
+return header;
 }
 // Delete element which is present before the given element
-NODE deleteBeforeEle(NODE first)
+NODE deleteBeforeEle(NODE header)
 {
-NODE cur = NULL, prev = NULL; //SLL had pprev pointer , which is not required here
+NODE cur = NULL, prev = NULL, pprev = NULL;
 int ele;
-if(first==NULL)
+if(header==NULL)
 {
 printf("\nThe list is empty.. no elements to delete...\n");
-return first;
+return header;
 }
 printf("\nEnter an element whose left element to be deleted :");
 scanf("%d",&ele);
-cur=first;
+cur=header->link;
 while(cur!=NULL && cur->info!=ele)
 {
-cur=cur->rlink;
+pprev = prev;
+prev=cur;
+cur=cur->link;
 }
 if(cur==NULL)
 {
 printf("\nElement doesnt exist in the list\n");
-return first;
+return header;
 }
-if(cur->llink == first)
+if(pprev==NULL)
 {
-first = deleteFront(first);
-return first;
+header = deleteFront(header);
+return header;
 }
-prev = cur->llink;
-prev->llink->rlink = cur;
-cur->llink = prev->llink;
+pprev->link = prev->link;
 printf("\nElement being deleted is : %d\n", prev->info);
+header->info--;
 free(prev);
-return first;
+return header;
 }
 // Delete the element which is present afer the given element
-NODE deleteAfterEle(NODE first)
+NODE deleteAfterEle(NODE header)
 {
 NODE cur = NULL, next = NULL;
 int ele;
-if(first==NULL)
+if(header==NULL)
 {
 printf("\nThe list is empty.. no elements to delete...\n");
-return first;
+return header;
 }
 printf("\nEnter an element whose right element to be deleted :");
 scanf("%d",&ele);
-cur=first;
+cur=header->link;
 while(cur!=NULL && cur->info!=ele)
 {
-cur=cur->rlink;
+cur=cur->link;
 }
 if(cur==NULL)
 {
 printf("\nElement doesnt exist in the list\n");
-return first;
+return header;
 }
-if(cur->rlink == NULL)
+if(cur->link == NULL)
 {
 printf("\nNo elements to delete after the given element...");
-return first;
+return header;
 }
-next = cur->rlink;
-if(next->rlink == NULL)
-{
-first = deleteRear(first);
-return first;
-}
-cur->rlink = next->rlink;
-next->rlink->llink = cur;
+next = cur->link;
+cur->link = next->link;
 printf("\nElement being deleted is : %d\n", next->info);
+header->info--;
 free(next);
-return first;
+return header;
 }
 // Compute length of the Singly Linked List
-NODE findLength(NODE first)
+NODE findLength(NODE header)
 {
 NODE cur=NULL;
 int length=0;
-cur=first;
+cur=header;
 while(cur!=NULL)
 {
 length++;
-cur=cur->rlink;
+cur=cur->link;
 }
-printf("\nLength of the linked list is : %d",length);
-return first;
+printf("\nLength of the linked list is : %d\n",length);
+printf("Header info = %d\n",header->info);
+return header;
 }
 // Search the given element in the linked list
-NODE searchKey(NODE first)
+NODE searchKey(NODE header)
 {
 NODE cur;
 int key, pos = 1;
-if(first==NULL)
+if(header==NULL)
 {
 printf("\n List is empty.. no elements to search...\n");
-return first;
+return header;
 }
 printf("\nEnter the key to be searched: ");
 scanf("%d",&key);
-cur=first;
+cur=header->link;
 while(cur!=NULL && cur->info!=key)
 {
-cur=cur->rlink;
+cur=cur->link;
 pos++;
 }
 if(cur==NULL)
 {
 printf("\nKey doesnt exist in the given linked list...\n");
-return first;
+return header;
 }
 printf("\nKey is found successfully in the linked list at pos = %d\n",pos);
-return first;
+return header;
 }
 // Display the contents of the linked list
-void display(NODE first)
+void display(NODE header)
 {
 NODE cur;
-if(first == NULL)
+if(header == NULL)
 printf("\nList is empty, no elements to display\n");
 else
 {
-cur=first;
-printf("\nElements in the linked list are : ");
+cur=header->link;
+printf("\nElements in the linked list are : "); //Not displaying header info here
 while(cur!=NULL)
 {
 printf("%d\t",cur->info);
-cur=cur->rlink;
+cur=cur->link;
+}
+printf("\nHeader data= %d\n",header->info);
 }
 }
-}
-
-void main()
+int main()
 {
-NODE first = NULL;
+NODE header;
+header=(NODE)malloc(sizeof(struct node));
+header->info=0;
+header->link=NULL;
 int choice;
 while(1)
 {
-printf("\n********** Doubly Linked List ************\n");
-printf("\n1. Insert Front\n2. Insert Rear\n3. Insert at given position\n4. Insert before element\n5. Insert afer element\n");
-
+printf("\n**********Singly Linked List with Header node ************\n");
+printf("\n1. Insert Front\n2. Insert Rear\n3. Insert at given position\n4. Insert before element\n5. Insert after element\n");
 printf("6. Delete Front\n7. Delete Rear\n8. Delete the given element\n9. Delete element at the given position\n10. Delete before the given element");
-
 printf("\n11. Delete after the given element\n12. Compute length of linked list\n13. Search for the given key\n14. Display\n15. Exit");
-
 printf("\n*****************************************\n");
 printf("\nEnter your choice: ");
 scanf("%d",&choice);
 switch(choice)
 {
-case 1: first = insertFront(first);
+case 1: header = insertFront(header);
 break;
-case 2: first = insertRear(first);
+case 2: header = insertRear(header);
 break;
-case 3: first = insertPos(first);
+case 3: header = insertPos(header);
 break;
-case 4: first = insertBeforeEle(first);
+case 4: header = insertBeforeEle(header);
 break;
-case 5: first = insertAfterEle(first);
+case 5: header = insertAfterEle(header);
 break;
-case 6: first = deleteFront(first);
+case 6: header = deleteFront(header);
 break;
-case 7: first = deleteRear(first);
+case 7: header = deleteRear(header);
 break;
-case 8: first = deleteElement(first);
+case 8: header = deleteElement(header);
 break;
-case 9: first = deletePos(first);
+case 9: header = deletePos(header);
 break;
-case 10: first = deleteBeforeEle(first);
+case 10: header = deleteBeforeEle(header);
 break;
-case 11: first = deleteAfterEle(first);
+case 11: header = deleteAfterEle(header);
 break;
-case 12: first = findLength(first);
+case 12: header = findLength(header);
 break;
-case 13: first = searchKey(first);
+case 13: header = searchKey(header);
 break;
-case 14: display(first);
+case 14: display(header);
 break;
-case 15: printf("\n DLL program terminates now... Thank you...\n");
+case 15: printf("\n SLL program terminates now... Thank you...\n");
 exit(0);
 default: printf("\nInvalid choice... please enter valid choice....\n");
-
 }
 }
+return 0;
 }

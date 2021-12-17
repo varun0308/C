@@ -7,6 +7,7 @@ typedef struct NODE
     struct NODE *next;
 }node;
 
+// Global decleration of start
 node *start;
 int num = 0;
 
